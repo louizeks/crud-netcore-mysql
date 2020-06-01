@@ -32,9 +32,9 @@ namespace senac_api
             var connection = Configuration["ConnectionString:MySqlConnectionString"];
 
             services.AddDbContext<SenacDbContext>(opt => opt.UseMySQL(connection));
-           
+
             services.AddControllers();
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,12 +43,18 @@ namespace senac_api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                context.Database.EnsureCreated();                
+                context.Database.EnsureCreated();
             }
 
             app.UseHttpsRedirection();
 
+
             app.UseRouting();
+            app.UseCors(x => x
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+            );
 
             app.UseAuthorization();
 
